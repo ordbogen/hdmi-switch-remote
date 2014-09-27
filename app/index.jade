@@ -1,0 +1,38 @@
+doctype html
+head
+  script(type="text/javascript", src="vendor.js")
+  script(type="text/javascript", src="hello.js")
+  link(rel="stylesheet", href="angular-material.min.css")
+  link(rel="stylesheet", href="font-awesome.min.css")
+  link(rel="stylesheet", href="hello.css")
+  title Hello ctrl
+body(ng-app="Hello", ng-controller="HelloCtrl as hello")
+  div(layout="vertical", layout-padding)
+    material-toolbar.material-theme-light
+      h2.material-toolbar-tools
+        i.fa.fa-paper-plane
+        span Vælg mode
+    material-list
+      material-item
+        material-item-content
+          .material-tile-left
+            material-button.material-button-fab(
+              ng-click="mode.switch('apple-tv')"
+            )
+              i.fa.fa-apple
+          .material-tile-content
+            span imac
+      material-item
+        material-item-content
+          .material-tile-left
+            material-button.material-button-fab(
+              ng-click="mode.switch('imac')"
+            )
+              i.fa.fa-at
+          .material-tile-content
+            span Apple TV
+      material-item
+        material-item-content
+          .material-tile-content
+            ig.material-input-group-theme-green
+              material-input(type="text", ng-model="mode.address")
