@@ -1,5 +1,6 @@
 package main
 
+// http://www.atlona.com/pdf/manuals/AT-PRO3HD44M.pdf
 // PWON PWON Power on
 // PWOFF PWOFF Power off
 // PWSTA PWx Will display the power status of the matrix (ex. Power is on = PWON)
@@ -25,10 +26,11 @@ package main
 // SaveY (ex. Save2) SaveY (ex. Save2) Saves settings for future use, preset options 0 to 4
 // RecallY (ex. Recall2) RecallY (ex. Recall2) Recalls saved settings for the number you selected
 // ClearY (ex. Clear2) ClearY (ex. Clear2) Erases the save for the number you selected
-// Mreset Mreset
+// Mreset Mreset Sets matrix back to the default settings
 
 const (
 	CODE_POWER_ON     = "PWON"
 	CODE_POWER_OFF    = "PWOFF"
 	CODE_POWER_STATUS = "PWSTA"
+	CODE_RESET        = "Mreset"
 )

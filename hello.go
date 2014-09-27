@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/GeertJohan/go.rice"
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
@@ -10,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"runtime"
+	"strings"
 )
 
 type User struct {
@@ -28,8 +30,34 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
+// Format command for settings a input to multiple outputs
+func inputToOutputs(input int, outputs ...int) string {
+	command := fmt.Sprintf("x%dAV", input)
+	outputStrs := make([]string, len(outputs))
+	for i, output := range outputs {
+		outputStrs[i] = fmt.Sprintf("x%d", output)
+	}
+	return command + strings.Join(outputStrs, ",")
+}
+
+func sendSignal(address string, commands []string) {
+	log.Printf("Sending signals... -> %s\n", address)
+	log.Println(commands)
+}
+
 func switchMode(mode, address string) {
 	log.Println("Switching mode...", mode, address)
+	if mode == "apple-tv" {
+		sendSignal(address, []string{
+			CODE_RESET,
+			inputToOutputs(2, 1, 2),
+		})
+	} else if mode == "imac" {
+		sendSignal(address, []string{
+			CODE_RESET,
+			inputToOutputs(1, 1, 2),
+		})
+	}
 }
 
 func toJson(data interface{}) string {
