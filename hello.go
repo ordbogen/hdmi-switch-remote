@@ -60,12 +60,13 @@ func sendSignal(address string, commands []string) {
 	readBuffer := bufio.NewReader(conn)
 
 	for _, command := range commands {
+		logNPush("-> " + command)
 		fmt.Fprintln(conn, command)
 		response, err := readBuffer.ReadString('\n')
 		if err != nil {
-			logNPush(err.Error())
+			logNPush("<- " + err.Error())
 		} else {
-			logNPush(response)
+			logNPush("<- " + response)
 		}
 	}
 }
