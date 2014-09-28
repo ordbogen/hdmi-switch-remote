@@ -34,16 +34,3 @@ gulp.task "default", ->
 
   gulp.src "bower_components/components-font-awesome/css/font-awesome.min.css"
     .pipe gulp.dest "public"
-
-gulp.task "closure-compiler", ->
-  getJs!
-    .pipe $.closureCompiler(
-      compilerPath: "bower_components/closure-compiler/compiler.jar"
-      fileName: "hello.js"
-      warning_level: "VERBOSE"
-      externs:
-        "support/externs/angular-1.2.js"
-        "support/externs/externs.js"
-    )
-    .pipe $.size showFiles: true
-    .pipe gulp.dest "tmp"
