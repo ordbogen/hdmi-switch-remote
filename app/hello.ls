@@ -21,7 +21,7 @@ app.factory "Mode", ($http) ->
 
   mode
 
-app.factory "Connection", ->
+app.factory "Connection", ($timeout) ->
   w = null
   connect = ->
     if !w?
@@ -30,7 +30,9 @@ app.factory "Connection", ->
   {
     connect: (callback) ->
       w = connect!
-      w.onmessage = callback
+      w.onmessage = (...args) ->
+        $timeout ->
+          callback ...args
 
     connectJson: (callback) ->
       w = connect!
@@ -38,5 +40,10 @@ app.factory "Connection", ->
         callback JSON.parse event.data
   }
 
-app.controller "HelloCtrl", ($scope, Mode) ->
+app.controller "HelloCtrl", ($scope, Mode, Connection) ->
   $scope.mode = Mode
+
+  $scope.messages = ""
+
+  Connection.connect (message) ->
+    $scope.messages += message.data + "\n"

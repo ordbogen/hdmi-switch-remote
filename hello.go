@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"github.com/GeertJohan/go.rice"
@@ -8,11 +9,14 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"runtime"
 	"strings"
 )
+
+var conns []*websocket.Conn
 
 type User struct {
 	Id   int
@@ -41,21 +45,58 @@ func inputToOutputs(input int, outputs ...int) string {
 }
 
 func sendSignal(address string, commands []string) {
-	log.Printf("Sending signals... -> %s\n", address)
-	log.Println(commands)
+	logNPush(fmt.Sprintf("Sending signals... -> %s\n", address))
+
+	logNPush(fmt.Sprintf("Dialing %s...", address))
+
+	conn, err := net.Dial("tcp", address)
+	if nil != err {
+		logNPush(err.Error())
+		return
+	}
+
+	defer conn.Close()
+
+	readBuffer := bufio.NewReader(conn)
+
+	for _, command := range commands {
+		fmt.Fprintln(conn, command)
+		response, err := readBuffer.ReadString('\n')
+		if err != nil {
+			logNPush(err.Error())
+		} else {
+			logNPush(response)
+		}
+	}
+}
+
+func logNPush(line string) {
+	log.Println(line)
+	pushLine(line)
+}
+
+func pushLine(line string) {
+	for _, conn := range conns {
+		err := conn.WriteMessage(websocket.TextMessage, []byte(line))
+		if nil != err {
+			log.Println(err)
+		}
+	}
 }
 
 func switchMode(mode, address string) {
 	log.Println("Switching mode...", mode, address)
 	if mode == "apple-tv" {
 		sendSignal(address, []string{
-			CODE_RESET,
 			inputToOutputs(2, 1, 2),
 		})
 	} else if mode == "imac" {
 		sendSignal(address, []string{
-			CODE_RESET,
 			inputToOutputs(1, 1, 2),
+		})
+	} else if mode == "chromecast" {
+		sendSignal(address, []string{
+			inputToOutputs(3, 1, 2),
 		})
 	}
 }
@@ -72,15 +113,13 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/socket", func(w http.ResponseWriter, req *http.Request) {
-	})
+		conn, err := upgrader.Upgrade(w, req, nil)
+		if err != nil {
+			log.Println(err)
+			return
+		}
 
-	r.Methods("GET", "HEAD").Path("/data").HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-	})
-
-	r.Methods("GET", "HEAD").Path("/data/{id}").HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-	})
-
-	r.Methods("DELETE").Path("/data").HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		conns = append(conns, conn)
 	})
 
 	r.Methods("POST").Path("/switch-mode").HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
