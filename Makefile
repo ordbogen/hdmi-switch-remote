@@ -65,3 +65,8 @@ setup:
 	# For rice
 	sudo apt-get install zip
 	npm install -q -g bower gulp
+
+hdmi-remote-darwin-amd64:
+	rm -rf hdmi-remote-darwin-amd64
+	rice embed-go
+	go-darwin-amd64 build -o hdmi-remote-darwin-amd64
