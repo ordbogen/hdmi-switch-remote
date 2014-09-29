@@ -59,10 +59,28 @@ func sendSignal(address string, commands []string) {
 
 	readBuffer := bufio.NewReader(conn)
 
+	logNPush("// Reading some lines")
+
+	for i := 0; i < 2; i++ {
+		response, err := readBuffer.ReadString('\n')
+		if nil != err {
+			logNPush(err.Error())
+		}
+
+		logNPush(response)
+	}
+
+	logNPush("// Read some lines...")
+
 	for _, command := range commands {
 		logNPush("-> " + command)
-		fmt.Fprintln(conn, command)
+		fmt.Fprintln(conn, command+"\r")
+
+		// Discard two lines
+		_, err := readBuffer.ReadString('\n')
+		_, err = readBuffer.ReadString('\n')
 		response, err := readBuffer.ReadString('\n')
+
 		if err != nil {
 			logNPush("<- " + err.Error())
 		} else {
