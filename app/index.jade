@@ -5,7 +5,7 @@ head
   link(rel="stylesheet", href="angular-material.min.css")
   link(rel="stylesheet", href="font-awesome.min.css")
   link(rel="stylesheet", href="hello.css")
-  title Hello ctrl
+  title HDMI SWITCHER
 body(ng-app="Hello", ng-controller="HelloCtrl as hello")
   div(layout="vertical", layout-padding)
     material-content.material-whiteframe-z1
@@ -19,9 +19,9 @@ body(ng-app="Hello", ng-controller="HelloCtrl as hello")
             .material-tile-content
               material-button.material-button-raised.material-theme-red(
                 block
-                ng-click="mode.switch('imac')"
+                ng-click="mode.switch('mac-mini')"
               )
-                span imac
+                span mac mini
         material-item
           material-item-content
             .material-tile-content
@@ -30,6 +30,14 @@ body(ng-app="Hello", ng-controller="HelloCtrl as hello")
                 ng-click="mode.switch('apple-tv')"
               )
                 span apple-tv
+        material-item
+          material-item-content
+            .material-tile-content
+              material-button.material-button-raised.material-theme-purple(
+                block
+                ng-click="mode.switch('x')"
+              )
+                span x
         material-item
           material-item-content
             .material-tile-content

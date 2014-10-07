@@ -8,7 +8,7 @@ ng = {}
 app.factory "Mode", ($http) ->
   mode = {}
 
-  mode.address = "127.0.0.1:23"
+  mode.address = "192.168.1.181:23"
 
   mode.switch = (newMode) ->
     $http.post(

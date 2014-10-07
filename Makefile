@@ -1,24 +1,26 @@
-.PHONY: types
+.PHONY: types hdmi-switch-remote-darwin-amd64
 
 .SUFFIXES:
 
 GULP = $(shell npm bin)/gulp
 
+NAME = hdmi-switch-remote
+
+build: $(NAME)
+
 all: node_modules bower_components public/hello.js public/index.html public/vendor.js public/hello.css public/angular-material.min.css public/font-awesome.min.css public/fonts
 
-run: go_hello_web all
-	./go_hello_web
+run\:dev: $(NAME)-bare all
+	./$(NAME)-bare
 
-run\:dev: go_hello_web_bare all
-	./go_hello_web_bare
+$(NAME)-bare: $(shell find . -name "*.go")
+	rm -rf public.rice-box.go
+	go build -o $(NAME)-bare
 
-go_hello_web_bare: $(shell find . -name "*.go")
-	go build -o go_hello_web_bare
-
-go_hello_web: go_hello_web_bare
-	rm -f go_hello_web
-	cp go_hello_web_bare go_hello_web
-	rice append --exec go_hello_web
+$(NAME): all
+	rm -rf $(NAME)
+	rice embed-go
+	go build -o $(NAME)
 
 node_modules:
 	npm -q update
@@ -66,7 +68,7 @@ setup:
 	sudo apt-get install zip
 	npm install -q -g bower gulp
 
-hdmi-remote-darwin-amd64:
-	rm -rf hdmi-remote-darwin-amd64
+$(NAME)-darwin-amd64: all
+	rm -rf $(NAME)-darwin-amd64
 	rice embed-go
-	go-darwin-amd64 build -o hdmi-remote-darwin-amd64
+	GOOS=darwin GOARCH=amd64 go build -o $(NAME)-darwin-amd64

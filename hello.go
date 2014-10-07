@@ -105,19 +105,22 @@ func pushLine(line string) {
 
 func switchMode(mode, address string) {
 	log.Println("Switching mode...", mode, address)
-	if mode == "apple-tv" {
-		sendSignal(address, []string{
-			inputToOutputs(2, 1, 2),
-		})
-	} else if mode == "imac" {
-		sendSignal(address, []string{
-			inputToOutputs(1, 1, 2),
-		})
-	} else if mode == "chromecast" {
-		sendSignal(address, []string{
-			inputToOutputs(3, 1, 2),
-		})
+	input := 0
+
+	switch mode {
+	case "mac-mini":
+		input = 1
+	case "apple-tv":
+		input = 2
+	case "x":
+		input = 3
+	case "chromecast":
+		input = 4
 	}
+
+	sendSignal(address, []string{
+		inputToOutputs(input, 1, 2, 3, 4),
+	})
 }
 
 func toJson(data interface{}) string {
