@@ -13,7 +13,7 @@ all: node_modules bower_components public/hello.js public/index.html public/vend
 run\:dev: $(NAME)-bare all
 	./$(NAME)-bare
 
-$(NAME)-bare: $(shell find . -name "*.go")
+$(NAME)-bare: $(shell find . -name "*.go") all
 	rm -rf public.rice-box.go
 	go build -o $(NAME)-bare
 
