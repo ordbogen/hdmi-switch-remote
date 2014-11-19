@@ -14,6 +14,7 @@ import (
 	"os"
 	"runtime"
 	"strings"
+	"time"
 )
 
 var conns []*websocket.Conn
@@ -49,7 +50,7 @@ func sendSignal(address string, commands []string) {
 
 	logNPush(fmt.Sprintf("Dialing %s...", address))
 
-	conn, err := net.Dial("tcp", address)
+	conn, err := net.DialTimeout("tcp", address, 7*time.Second)
 	if nil != err {
 		logNPush(err.Error())
 		return
