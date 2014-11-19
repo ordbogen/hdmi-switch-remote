@@ -89,18 +89,11 @@ func sendSignal(address string, commands []string) {
 	}
 }
 
+var lineCh chan string
+
 func logNPush(line string) {
 	log.Println(line)
-	pushLine(line)
-}
-
-func pushLine(line string) {
-	for _, conn := range conns {
-		err := conn.WriteMessage(websocket.TextMessage, []byte(line))
-		if nil != err {
-			log.Println(err)
-		}
-	}
+	lineCh <- line
 }
 
 func switchMode(mode, address string) {
@@ -168,5 +161,19 @@ func main() {
 	if listen == "" {
 		listen = ":3000"
 	}
+
+	lineCh = make(chan string, 32)
+
+	go func() {
+		for line := range lineCh {
+			for _, conn := range conns {
+				err := conn.WriteMessage(websocket.TextMessage, []byte(line))
+				if nil != err {
+					log.Println(err)
+				}
+			}
+		}
+	}()
+
 	n.Run(listen)
 }
