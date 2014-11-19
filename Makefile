@@ -19,8 +19,9 @@ $(NAME)-bare: $(shell find . -name "*.go") all
 
 $(NAME): all
 	rm -rf $(NAME)
-	rice embed-go
+	rm -rf public.rice-box.go
 	go build -o $(NAME)
+	rice append --exec $(NAME)
 
 node_modules:
 	npm -q update
