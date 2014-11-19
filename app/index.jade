@@ -10,15 +10,11 @@ head
 body(ng-app="Hello", ng-controller="HelloCtrl as hello")
   div(layout="vertical", layout-padding)
     material-content.material-whiteframe-z1
-      material-toolbar.material-theme-light
-        h2.material-toolbar-tools
-          i.fa.fa-paper-plane
-          span Vælg mode
       material-list
         material-item
           material-item-content
             .material-tile-content
-              material-button.material-button-raised.material-theme-red(
+              material-button.material-button-raised.material-theme-blue(
                 block
                 ng-click="mode.switch('mac-mini')"
               )
@@ -26,7 +22,7 @@ body(ng-app="Hello", ng-controller="HelloCtrl as hello")
         material-item
           material-item-content
             .material-tile-content
-              material-button.material-button-raised.material-theme-green(
+              material-button.material-button-raised.material-theme-red(
                 block
                 ng-click="mode.switch('apple-tv')"
               )
@@ -34,7 +30,7 @@ body(ng-app="Hello", ng-controller="HelloCtrl as hello")
         material-item
           material-item-content
             .material-tile-content
-              material-button.material-button-raised.material-theme-purple(
+              material-button.material-button-raised.material-theme-green(
                 block
                 ng-click="mode.switch('x')"
               )
@@ -42,7 +38,7 @@ body(ng-app="Hello", ng-controller="HelloCtrl as hello")
         material-item
           material-item-content
             .material-tile-content
-              material-button.material-button-raised.material-theme-yellow(
+              material-button.material-button-raised.material-theme-orange(
                 block
                 ng-click="mode.switch('chromecast')"
               )
