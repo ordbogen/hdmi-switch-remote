@@ -46,4 +46,5 @@ app.controller "HelloCtrl", ($scope, Mode, Connection) ->
   $scope.messages = ""
 
   Connection.connect (message) ->
-    $scope.messages += message.data + "\n"
+    d = new Date
+    $scope.messages = "#{d.getHours!}:#{d.getMinutes!}:#{d.getSeconds!} #{message.data}\n#{$scope.messages}"
