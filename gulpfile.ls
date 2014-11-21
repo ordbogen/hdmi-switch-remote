@@ -29,6 +29,9 @@ gulp.task "default", ->
   gulp.src "bower_components/angular-material/angular-material.min.css"
     .pipe gulp.dest "public"
 
+  gulp.src "app/hdmi-switch-icon-192.png"
+    .pipe gulp.dest "public"
+
   gulp.src "bower_components/components-font-awesome/fonts/*"
     .pipe gulp.dest "public/fonts"
 

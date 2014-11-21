@@ -9,6 +9,8 @@ NAME = hdmi-switch-remote
 build: $(NAME)
 
 all: node_modules bower_components public/hello.js public/index.html public/vendor.js public/hello.css public/angular-material.min.css public/font-awesome.min.css public/fonts
+	go get -d -v ./...
+	go get -v github.com/GeertJohan/go.rice/rice
 
 run\:dev: $(NAME)-bare all
 	./$(NAME)-bare
