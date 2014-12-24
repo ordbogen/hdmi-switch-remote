@@ -1,6 +1,5 @@
 /node_modules/
 /npm-debug.log
-/bower_components/
 /public/
 /hello
 /hdmi-switch-remote

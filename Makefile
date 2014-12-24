@@ -8,7 +8,7 @@ NAME = hdmi-switch-remote
 
 build: $(NAME)
 
-all: node_modules bower_components public/hello.js public/index.html public/vendor.js public/hello.css public/angular-material.min.css public/font-awesome.min.css public/fonts
+all: node_modules public/hello.js public/index.html public/vendor.js public/hello.css public/angular-material.min.css public/font-awesome.min.css public/fonts
 	go get -d -v ./...
 	go get -v github.com/GeertJohan/go.rice/rice
 
@@ -27,9 +27,6 @@ $(NAME): all
 
 node_modules:
 	npm -q update
-
-bower_components:
-	bower -q update
 
 public/hello.js: app/hello.ls
 	$(GULP)
@@ -61,7 +58,7 @@ hello_embedded: public.rice-box.go
 setup:
 	# For rice
 	sudo apt-get install zip
-	npm install -q -g bower gulp
+	npm install -q -g gulp
 
 $(NAME)-darwin-amd64: all
 	rm -rf $(NAME)-darwin-amd64
