@@ -12,3 +12,5 @@ deploy:
   file: hdmi-switch-remote
   on:
     repo: homburg/hdmi-switch-remote
+    tags: true
+    all_branches: true
