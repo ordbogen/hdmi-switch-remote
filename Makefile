@@ -52,14 +52,6 @@ public/font-awesome.min.css:
 public/fonts:
 	$(GULP)
 
-types:
-	java -jar bower_components/closure-compiler/compiler.jar \
-		--warning_level=VERBOSE \
-		--externs support/externs/angular-1.2.js \
-		--externs support/externs/externs.js \
-		--angular_pass \
-		tmp/hello.js
-
 public.rice-box.go: all
 	rice embed-go
 
