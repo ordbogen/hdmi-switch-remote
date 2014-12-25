@@ -1,4 +1,4 @@
-.PHONY: types hdmi-switch-remote-darwin-amd64
+.PHONY: types hdmi-switch-remote-darwin-amd64 all
 
 .SUFFIXES:
 
@@ -9,6 +9,7 @@ NAME = hdmi-switch-remote
 build: $(NAME)
 
 all: node_modules public/hello.js public/index.html public/vendor.js public/hello.css public/angular-material.min.css public/font-awesome.min.css public/fonts
+	@echo "TRAVIS_GO_VERSION: $(TRAVIS_GO_VERSION)"
 	go get -d -v ./...
 	go get -v github.com/GeertJohan/go.rice/rice
 
@@ -26,7 +27,7 @@ $(NAME): all
 	rice append --exec $(NAME)
 
 node_modules:
-	npm -q update
+	npm update > /dev/null
 
 public/hello.js: app/hello.ls
 	$(GULP)
@@ -54,11 +55,6 @@ public.rice-box.go: all
 
 hello_embedded: public.rice-box.go
 	go build
-
-setup:
-	# For rice
-	sudo apt-get install zip
-	npm install -q -g gulp
 
 $(NAME)-darwin-amd64: all
 	rm -rf $(NAME)-darwin-amd64
