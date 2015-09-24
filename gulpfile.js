@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     stylus = require('gulp-stylus'),
     mainBowerFiles = require('main-bower-files');
 
-gulp.task("default", function(){
+gulp.task("default", () => {
   gulp
     .src("app/app.js")
     .pipe(gulp.dest("public"));
