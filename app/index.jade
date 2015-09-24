@@ -7,14 +7,14 @@ head
   meta(name="msapplication-TileColor" content="#263238")
   meta(name="msapplication-TileImage" content="hdmi-switch-icon-192.png")
   script(type="text/javascript", src="vendor.js")
-  script(type="text/javascript", src="hello.js")
+  script(type="text/javascript", src="app.js")
   link(rel="stylesheet", href="angular-material.min.css")
   link(rel="stylesheet", href="font-awesome.min.css")
   link(rel="stylesheet", href="hello.css")
   link(rel="apple-touch-icon", sizes="192x192", type="image/png", href="hdmi-switch-icon-192.png")
   link(rel="shortcut icon", sizes="192x192", type="image/png", href="hdmi-switch-icon-192.png")
   title HDMI SWITCHER
-body(ng-app="Hello", ng-controller="HelloCtrl as hello")
+body(ng-app="HdmiSwitch", ng-controller="HdmiSwitchCtrl as hdmiSwitchCtrl")
   div(layout="vertical", layout-padding)
     material-content.material-whiteframe-z1
       material-list
@@ -23,7 +23,7 @@ body(ng-app="Hello", ng-controller="HelloCtrl as hello")
             .material-tile-content
               material-button.material-button-raised.material-theme-blue(
                 block
-                ng-click="mode.switch('mac-mini')"
+                ng-click="hdmiSwitchCtrl.mode.switch('mac-mini')"
               )
                 span mac mini
         material-item
@@ -31,7 +31,7 @@ body(ng-app="Hello", ng-controller="HelloCtrl as hello")
             .material-tile-content
               material-button.material-button-raised.material-theme-red(
                 block
-                ng-click="mode.switch('apple-tv')"
+                ng-click="hdmiSwitchCtrl.mode.switch('apple-tv')"
               )
                 span apple-tv
         material-item
@@ -39,7 +39,7 @@ body(ng-app="Hello", ng-controller="HelloCtrl as hello")
             .material-tile-content
               material-button.material-button-raised.material-theme-green(
                 block
-                ng-click="mode.switch('x')"
+                ng-click="hdmiSwitchCtrl.mode.switch('x')"
               )
                 span x
         material-item
@@ -47,12 +47,12 @@ body(ng-app="Hello", ng-controller="HelloCtrl as hello")
             .material-tile-content
               material-button.material-button-raised.material-theme-orange(
                 block
-                ng-click="mode.switch('chromecast')"
+                ng-click="hdmiSwitchCtrl.mode.switch('chromecast')"
               )
                 span chromecast
         material-item
           material-item-content
             .material-tile-content
               ig.material-input-group-theme-green
-                material-input(type="text", ng-model="mode.address", block, flex)
-        pre(ng-bind="messages")
+                material-input(type="text", ng-model="hdmiSwitchCtrl.mode.address", block, flex)
+        pre(ng-bind="hdmiSwitchCtrl.messages")

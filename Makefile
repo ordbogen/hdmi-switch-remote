@@ -8,7 +8,7 @@ NAME = hdmi-switch-remote
 
 build: $(NAME)
 
-all: node_modules public/hello.js public/index.html public/vendor.js public/hello.css public/angular-material.min.css public/font-awesome.min.css public/fonts
+all: node_modules public/app.js public/index.html public/vendor.js public/hello.css public/angular-material.min.css public/font-awesome.min.css public/fonts
 	@echo "TRAVIS_GO_VERSION: $(TRAVIS_GO_VERSION)"
 	go get -d -v ./...
 	go get -v github.com/GeertJohan/go.rice/rice
@@ -29,7 +29,7 @@ $(NAME): all
 node_modules:
 	npm update > /dev/null
 
-public/hello.js: app/hello.ls
+public/app.js: app/app.js
 	$(GULP)
 
 public/index.html: app/index.jade
