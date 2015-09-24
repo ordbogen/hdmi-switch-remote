@@ -29,7 +29,7 @@ $(NAME): all
 node_modules:
 	npm update > /dev/null
 
-public/hello.js: app/hello.ls
+public/app.js: app/app.js
 	$(GULP)
 
 public/index.html: app/index.jade
