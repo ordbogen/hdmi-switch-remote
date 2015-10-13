@@ -1,6 +1,6 @@
 # ATLONA AT-H2H-44M REMOTE
 
-Web-app remote for controlling an the Atlona AT-H2H-44M HDMI switch.
+Web-app remote for controlling the [Atlona AT-H2H-44M HDMI switch](http://atlona.com/product/at-h2h-44m/).
 
 # BUILD
 
