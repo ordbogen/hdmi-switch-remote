@@ -13,11 +13,11 @@
             return mode;
         })
         .factory("Connection", function($timeout){
-            var w, connect;
-            w = null;
+            var w = null;
+            var connect;
             connect = function(){
                 var w;
-                if (w == null) {
+                if (w === null) {
                     w = new WebSocket("ws://" + location.host + "/socket");
                 }
                 return w;
@@ -25,17 +25,11 @@
             return {
                 connect: function(callback){
                     var w = connect();
-                    return w.onmessage = function(){
+                    w.onmessage = function(){
                         var args = [].slice.call(arguments);
                         return $timeout(function(){
                             return callback.apply(null, args);
                         });
-                    };
-                },
-                connectJson: function(callback){
-                    var w = connect();
-                    return w.onmessage = function(event){
-                        return callback(JSON.parse(event.data));
                     };
                 }
             };
@@ -44,9 +38,9 @@
             var vm = this;
             vm.mode = Mode;
             vm.messages = "";
-            return Connection.connect(function(message){
-                var d = new Date;
-                return vm.messages = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + " " + message.data + "\n" + vm.messages;
+            Connection.connect(function(message){
+                var d = new Date();
+                vm.messages = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + " " + message.data + "\n" + vm.messages;
             });
             return vm;
         });
