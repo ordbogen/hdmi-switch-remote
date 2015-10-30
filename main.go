@@ -4,10 +4,6 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"github.com/GeertJohan/go.rice"
-	"github.com/codegangsta/negroni"
-	"github.com/gorilla/mux"
-	"github.com/gorilla/websocket"
 	"log"
 	"net"
 	"net/http"
@@ -15,19 +11,21 @@ import (
 	"runtime"
 	"strings"
 	"time"
+
+	"github.com/GeertJohan/go.rice"
+	"github.com/codegangsta/negroni"
+	"github.com/gorilla/mux"
+	"github.com/gorilla/websocket"
 )
 
 var conns []*websocket.Conn
 
-type User struct {
-	Id   int
-	Name string
-	Age  int
-}
-
-type postBodySwitchMode struct {
-	Address string `json: address`
-	Mode    string `json: mode`
+// PostBodySwitchMode is data returned from the client.
+// Mode is what input should be switched to.
+// Address is the HDMI switchers IP.
+type PostBodySwitchMode struct {
+	Address string `json:"address"`
+	Mode    string `json:"mode"`
 }
 
 var upgrader = websocket.Upgrader{
@@ -117,11 +115,6 @@ func switchMode(mode, address string) {
 	})
 }
 
-func toJson(data interface{}) string {
-	json, _ := json.MarshalIndent(data, "", "  ")
-	return string(json)
-}
-
 func main() {
 	log.Println("Starting...")
 	runtime.GOMAXPROCS(runtime.NumCPU())
@@ -139,7 +132,7 @@ func main() {
 	})
 
 	r.Methods("POST").Path("/switch-mode").HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		var post postBodySwitchMode
+		var post PostBodySwitchMode
 		dec := json.NewDecoder(req.Body)
 		err := dec.Decode(&post)
 
