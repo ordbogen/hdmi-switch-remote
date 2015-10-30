@@ -13,19 +13,19 @@
             return mode;
         })
         .factory("Connection", function($timeout){
-            var w = null;
+            var socket = null;
             var connect;
             connect = function(){
-                var w;
-                if (w === null) {
-                    w = new WebSocket("ws://" + location.host + "/socket");
+                var socket;
+                if (socket === null) {
+                    socket = new WebSocket("ws://" + location.host + "/socket");
                 }
-                return w;
+                return socket;
             };
             return {
                 connect: function(callback){
-                    var w = connect();
-                    w.onmessage = function(){
+                    var socket = connect();
+                    socket.onmessage = function(){
                         var args = [].slice.call(arguments);
                         return $timeout(function(){
                             return callback.apply(null, args);
